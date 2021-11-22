@@ -5,7 +5,7 @@ phy_init, data, phy,     ,        0x1000,
 factory,  app,  factory, ,      0x100000,
 app0,     app,  ota_0,	,       0x100000,
 app1,     app,  ota_1,	,       0x100000,
-storage,  data, spiffs, ,        0x20000,
+storage,  data, spiffs, ,        0xF0000,
 
 # 20k
 # 8k
@@ -21,6 +21,7 @@ storage,  data, spiffs, ,        0x20000,
 #nvs_key,  data, nvs_keys,,  0x1000,
 #storage,  data, spiffs, ,  0x20000,
 
+# MAX!!!
 # 32k
 # 8k
 # 1984k

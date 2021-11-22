@@ -207,7 +207,7 @@ void refreshScreen(void *data)
 	while (true)
 	{
 		make_screen(counter++);
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
 
@@ -229,7 +229,7 @@ extern "C" void app_main()
 	graphics.init();
 	make_screen(0);
 	xTaskCreatePinnedToCore(compositeCore, "c", 1024, NULL, 5, NULL, 0);
-	xTaskCreatePinnedToCore(refreshScreen, "rs", configMINIMAL_STACK_SIZE, NULL, 1, NULL, 0);
+	xTaskCreatePinnedToCore(refreshScreen, "rs", configMINIMAL_STACK_SIZE, NULL, 1, NULL, 1);
 	//initialize audio output
 	//audioOutput.init(audioSystem);
 	//Play first sound in loop (music)
