@@ -40,8 +40,7 @@ Font font1616(16, 16, font16x16);
 //NTSC MAX, half: 324x224 full: 648x448
 const int XRES = 320;
 const int YRES = 240;
-//const int XRES = 648;
-//const int YRES = 536;
+
 Graphics graphics(XRES, YRES);
 SimplePALOutput composite;
 
@@ -165,12 +164,10 @@ void compositeCore(void *data)
 
 void make_screen(uint16_t val)
 {
-	// Teoretycznie rozdzielczosc 40x30 znakow (8x8)
-	// 20x15 znakow (16x16)
+	// Teoretycznie rozdzielczosc 40x30 znakow (8x8) 20x15 znakow (16x16)
 	//fill audio buffer
 	//audioSystem.calcSamples();
 	//graphics.begin(0);
-
 	graphics.fillRect(0, 0, 324, 40, RED);
 	graphics.fillRect(0, 40, 324, 40, GREEN);
 	graphics.fillRect(0, 80, 324, 40, BLUE);
@@ -192,11 +189,6 @@ void make_screen(uint16_t val)
 	graphics.setFont(font57);
 	graphics.setCursor(0, 160);
 	graphics.out_txt("0123456789012345678901234567890123456789012345678901234567890123456789");
-	for (size_t i = 0; i < 40; i++)
-	{
-		graphics.line(i * 8, 200, i * 8, 210, BLACK);
-	}
-	
 /* 
 	graphics.setCursor(0, 0);
 	graphics.setTextColor(BLACK);
@@ -206,7 +198,6 @@ void make_screen(uint16_t val)
 	graphics.setFont(font88);
 	graphics.out_txt("0123456789abcdefABCDEF");
 	graphics.setCursor(0, 60);
-	graphics.setFont(font1616);
 	graphics.out_txt("1234567890");
 	graphics.setCursor(0, 80);
 	char napis[6];
@@ -220,12 +211,14 @@ void make_screen(uint16_t val)
 	graphics.fillRect(0, 180, 324, 20, YELLOW);
 	graphics.fillRect(0, 200, 324, 20, MAGENTA);
 	graphics.fillRect(0, 220, 324, 20, CYAN);
-	graphics.setCursor(0, 150);
+*/
+	graphics.setFont(font1616);
+	graphics.setCursor(0, 30);
 	graphics.setTextColor(BLACK, TRANSPARENT);
 	graphics.out_txt("Skeletondevices !");
 	graphics.drawMonoBMP(280, 100, 32, 32, satellite_sym, YELLOW, BLACK);
-	graphics.drawMonoBMP(280, 150, 32, 32, satellite_sym,  BLACK, TRANSPARENT);
- */	
+	graphics.drawMonoBMP(200, 100, 32, 32, satellite_sym, BLACK, TRANSPARENT);
+ 	
 	graphics.end();
 }
 
@@ -239,7 +232,6 @@ void refreshScreen(void *data)
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
-
 
 extern "C" void app_main()
 {
@@ -255,14 +247,14 @@ extern "C" void app_main()
 	ESP_ERROR_CHECK(ret);
 	ESP_LOGI(TAG, "ESP_WIFI_MODE_STA");
 	composite.init();
-	 
+/* 	 
 	for (size_t i = 0; i < lineSamples; i++)
 	{
 		printf("blank[%d]=%d short[%d]=%d mix[%d]=%d long[%d]=%d\n",
 		 i, composite.blank[i], i, composite.shortSync[i],
 		 i, composite.mixSync[i], i, composite.longSync[i]);
 	}
-	
+	 */
 	graphics.init();
 	make_screen(0);
 	xTaskCreatePinnedToCore(compositeCore, "c", 1024, NULL, 5, NULL, 0);
