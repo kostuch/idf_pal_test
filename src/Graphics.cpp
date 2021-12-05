@@ -58,7 +58,7 @@ void Graphics::out_txt(const char *str)
 		if (*str >= 32 && *str < 128)
 			drawChar(cursorX, cursorY, *str, frontColor, backColor);
 
-		cursorX += font->xres + 1;
+		cursorX += font->xres;
 
 		if (cursorX + font->xres > xres || *str == '\n')
 		{

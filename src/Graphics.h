@@ -59,6 +59,8 @@ public:
 	inline void dotFast(int x, int y, unsigned int color)
 	{
 		int c = RGB2YUV[color & 0xfff];
+		// To ponizej robi inwersje kolorow do "normalnosci"
+		//int c = RGB2YUV[0xfff - (color & 0xfff)];
 
 		if (y & 1)
 		{
@@ -77,6 +79,8 @@ public:
 		if ((unsigned int)x < xres && (unsigned int)y < yres)
 		{
 			int c = RGB2YUV[color & 0xfff];
+			// To ponizej robi inwersje kolorow do "normalnosci"
+			//int c = RGB2YUV[0xfff - (color & 0xfff)];
 
 			if (y & 1)
 			{

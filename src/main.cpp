@@ -38,7 +38,7 @@ Font font1616(16, 16, font16x16);
 //Video configuration
 //PAL MAX, half: 324x268 full: 648x536
 //NTSC MAX, half: 324x224 full: 648x448
-const int XRES = 324;
+const int XRES = 320;
 const int YRES = 240;
 //const int XRES = 648;
 //const int YRES = 536;
@@ -169,7 +169,35 @@ void make_screen(uint16_t val)
 	// 20x15 znakow (16x16)
 	//fill audio buffer
 	//audioSystem.calcSamples();
-	graphics.begin(0);
+	//graphics.begin(0);
+
+	graphics.fillRect(0, 0, 324, 40, RED);
+	graphics.fillRect(0, 40, 324, 40, GREEN);
+	graphics.fillRect(0, 80, 324, 40, BLUE);
+	graphics.fillRect(0, 120, 324, 40, WHITE);
+	graphics.fillRect(0, 160, 324, 40, BLACK);
+	graphics.fillRect(0, 200, 324, 40, YELLOW);
+	graphics.setTextColor(WHITE);
+	graphics.setFont(font88);
+	graphics.setCursor(0, 0);
+	graphics.out_txt("ABC");
+	graphics.setCursor(0, 232);
+	graphics.out_txt("QWE");
+	graphics.setCursor(296, 0);
+	graphics.out_txt("123");
+	graphics.setCursor(296, 232);
+	graphics.out_txt("XYZ");
+	graphics.setCursor(0, 180);
+	graphics.out_txt("0123456789012345678901234567890123456789");
+	graphics.setFont(font57);
+	graphics.setCursor(0, 160);
+	graphics.out_txt("0123456789012345678901234567890123456789012345678901234567890123456789");
+	for (size_t i = 0; i < 40; i++)
+	{
+		graphics.line(i * 8, 200, i * 8, 210, BLACK);
+	}
+	
+/* 
 	graphics.setCursor(0, 0);
 	graphics.setTextColor(BLACK);
 	graphics.setFont(font57);
@@ -197,6 +225,7 @@ void make_screen(uint16_t val)
 	graphics.out_txt("Skeletondevices !");
 	graphics.drawMonoBMP(280, 100, 32, 32, satellite_sym, YELLOW, BLACK);
 	graphics.drawMonoBMP(280, 150, 32, 32, satellite_sym,  BLACK, TRANSPARENT);
+ */	
 	graphics.end();
 }
 
@@ -206,7 +235,7 @@ void refreshScreen(void *data)
 
 	while (true)
 	{
-		make_screen(counter++);
+		//make_screen(counter++);
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
@@ -226,6 +255,14 @@ extern "C" void app_main()
 	ESP_ERROR_CHECK(ret);
 	ESP_LOGI(TAG, "ESP_WIFI_MODE_STA");
 	composite.init();
+	 
+	for (size_t i = 0; i < lineSamples; i++)
+	{
+		printf("blank[%d]=%d short[%d]=%d mix[%d]=%d long[%d]=%d\n",
+		 i, composite.blank[i], i, composite.shortSync[i],
+		 i, composite.mixSync[i], i, composite.longSync[i]);
+	}
+	
 	graphics.init();
 	make_screen(0);
 	xTaskCreatePinnedToCore(compositeCore, "c", 1024, NULL, 5, NULL, 0);
